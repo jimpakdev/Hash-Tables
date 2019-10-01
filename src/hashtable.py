@@ -7,6 +7,7 @@ class LinkedPair:
         self.value = value
         self.next = None
 
+
 class HashTable:
     '''
     A hash table that with `capacity` buckets
@@ -51,8 +52,9 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
-
+        if self.storage[self._hash_mod(key)] != None:
+            print('Warning! Key already exists.')
+        self.storage[self._hash_mod(key)] = value
 
 
     def remove(self, key):
@@ -63,7 +65,9 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        if self.storage[self._hash_mod(key)] == None:
+            print('Warning! Key not found.')
+        self.storage[self._hash_mod(key)] = None
 
 
     def retrieve(self, key):
@@ -74,7 +78,7 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        return self.storage[self._hash_mod(key)].value
 
 
     def resize(self):
@@ -84,8 +88,12 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
-
+        self.capacity *= 2
+        new_storage = [None] * self.capacity
+        for i in range(len(self.storage)):
+            new_storage[(i)] = self.storage[i]
+            
+        self.storage = new_storage
 
 
 if __name__ == "__main__":
@@ -102,16 +110,16 @@ if __name__ == "__main__":
     print(ht.retrieve("line_2"))
     print(ht.retrieve("line_3"))
 
-    # Test resizing
-    old_capacity = len(ht.storage)
-    ht.resize()
-    new_capacity = len(ht.storage)
+    # # Test resizing
+    # old_capacity = len(ht.storage)
+    # ht.resize()
+    # new_capacity = len(ht.storage)
 
-    print(f"\nResized from {old_capacity} to {new_capacity}.\n")
+    # print(f"\nResized from {old_capacity} to {new_capacity}.\n")
 
-    # Test if data intact after resizing
-    print(ht.retrieve("line_1"))
-    print(ht.retrieve("line_2"))
-    print(ht.retrieve("line_3"))
+    # # Test if data intact after resizing
+    # print(ht.retrieve("line_1"))
+    # print(ht.retrieve("line_2"))
+    # print(ht.retrieve("line_3"))
 
-    print("")
+    # print("")
