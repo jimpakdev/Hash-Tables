@@ -57,7 +57,7 @@ class HashTable:
         Fill this in.
         '''
         # check the key
-         # if key is matching, overwrite the value
+        # if key is matching, overwrite the value
         # while next is not none 
         # else insert
         index = self._hash_mod(key)
@@ -130,16 +130,16 @@ if __name__ == "__main__":
     ht.insert("line_2", "Filled beyond capacity")
     ht.insert("line_3", "Linked list saves the day!")
 
-    # print("")
+    print("")
 
     # Test storing beyond capacity
     print(ht.retrieve("line_1"))
     print(ht.retrieve("line_2"))
     print(ht.retrieve("line_3"))
 
-    # ht.remove("line_1")
-    # ht.remove("line_2")
-    # ht.remove("line_3")
+    ht.remove("line_1")
+    ht.remove("line_2")
+    ht.remove("line_3")
 
     # Test resizing
     old_capacity = len(ht.storage)
@@ -149,8 +149,8 @@ if __name__ == "__main__":
     print(f"\nResized from {old_capacity} to {new_capacity}.\n")
 
     # # Test if data intact after resizing
-    # print(ht.retrieve("line_1"))
-    # print(ht.retrieve("line_2"))
-    # print(ht.retrieve("line_3"))
+    print(ht.retrieve("line_1"))
+    print(ht.retrieve("line_2"))
+    print(ht.retrieve("line_3"))
 
-    # print("")
+    print("")
