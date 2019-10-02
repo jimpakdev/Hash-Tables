@@ -58,16 +58,22 @@ class HashTable:
         '''
         # check the key
         # if key is matching, overwrite the value
-        # while next is not none 
+        # iterate -> while next is not none 
+        # then append
         # else insert
         index = self._hash_mod(key)
+        pair = self.storage[index]
 
-        if self.storage[index] != None:
-            current = self.storage[index] 
-            while current.next != None:
-                current = current.next
-            current.next = LinkedPair(key, value)
-            return
+        if pair != None: 
+            while pair != None:
+                if pair.key == key:
+                    pair.value = value
+                    return
+                elif pair.next == None:
+                    pair.next = LinkedPair(key, value)
+                    return
+                else:
+                    pair = pair.next
         else:
             self.storage[index] = LinkedPair(key, value)
 
@@ -80,12 +86,21 @@ class HashTable:
 
         Fill this in.
         '''
+        # set values to none 
+        # set the deleted pair to the next
         index = self._hash_mod(key)
+        pair = self.storage[index]
 
-        if self.storage[index] == None:
+        if pair != None:
+            while pair != None:
+                if pair.key == key:
+                    pair.key = None
+                    pair.value = None
+                    return
+                pair = pair.next
+        else:
             print('Warning! Key not found.')
             return
-        self.storage[index] = None
 
 
     def retrieve(self, key):
@@ -98,11 +113,21 @@ class HashTable:
         '''
         index = self._hash_mod(key)
         pair = self.storage[index]
-
-        if pair is None:
-            return None
+        
+        if pair != None:
+            while pair != None:
+                if pair.key == key:
+                    return pair.value
+                else:
+                    pair = pair.next
         else:
-            return pair.value
+            print('Warning! Key not found')
+            return None
+
+        # if pair is None:
+        #     return None
+        # else:
+        #     return pair.value
 
 
     def resize(self):
@@ -114,13 +139,16 @@ class HashTable:
         '''
         self.capacity *= 2
         new_storage = [None] * self.capacity
-        
-        for pair in self.storage:
-            if pair is not None:
-                new_index = self._hash_mod(pair.key)
-                new_storage[new_index] = pair
-            
+        updated_storage = self.storage
         self.storage = new_storage
+        # double the capacity
+        # insert pairs into new storage 
+        
+        for pair in updated_storage:
+            if pair != None:
+                while pair != None:
+                    self.insert(pair.key, pair.value)
+                    pair = pair.next
 
 
 if __name__ == "__main__":
@@ -141,16 +169,16 @@ if __name__ == "__main__":
     ht.remove("line_2")
     ht.remove("line_3")
 
-    # Test resizing
-    old_capacity = len(ht.storage)
-    ht.resize()
-    new_capacity = len(ht.storage)
+    # # Test resizing
+    # old_capacity = len(ht.storage)
+    # ht.resize()
+    # new_capacity = len(ht.storage)
 
-    print(f"\nResized from {old_capacity} to {new_capacity}.\n")
+    # print(f"\nResized from {old_capacity} to {new_capacity}.\n")
 
-    # # Test if data intact after resizing
+    # # # Test if data intact after resizing
     print(ht.retrieve("line_1"))
     print(ht.retrieve("line_2"))
     print(ht.retrieve("line_3"))
 
-    print("")
+    # print("")
